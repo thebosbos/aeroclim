@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Icon from "@/components/admin/Icon";
 
 const links = [
-  { href: "/admin", label: "Tableau de bord" },
-  { href: "/admin/projects", label: "Projets" },
-  { href: "/admin/services", label: "Services" },
-  { href: "/admin/stats", label: "Statistiques" },
-  { href: "/admin/leads", label: "Demandes" },
-  { href: "/admin/users", label: "Administrateurs" },
+  { href: "/admin", label: "Tableau de bord", icon: "dashboard" as const },
+  { href: "/admin/projects", label: "Projets", icon: "projects" as const },
+  { href: "/admin/services", label: "Services", icon: "services" as const },
+  { href: "/admin/stats", label: "Statistiques", icon: "stats" as const },
+  { href: "/admin/leads", label: "Demandes", icon: "leads" as const },
+  { href: "/admin/users", label: "Administrateurs", icon: "users" as const },
 ];
 
 export default function AdminNav() {
@@ -22,7 +23,8 @@ export default function AdminNav() {
         return (
           <li key={link.href}>
             <Link href={link.href} className={active ? "active" : ""}>
-              {link.label}
+              <Icon name={link.icon} />
+              <span>{link.label}</span>
             </Link>
           </li>
         );

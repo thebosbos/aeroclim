@@ -9,10 +9,19 @@ import { requireAdmin } from "@/lib/session";
 import { serialize } from "@/lib/serialize";
 import type { Project } from "@/lib/types";
 
+const MAX_IMAGE_LENGTH = 6_000_000; // ~4.5MB decoded, comfortably under Mongo's 16MB document limit
+
 const projectSchema = z.object({
   title: z.string().min(1),
   category: z.string().min(1),
-  image: z.string().url(),
+  image: z
+    .string()
+    .min(1)
+    .max(MAX_IMAGE_LENGTH, "Image trop volumineuse.")
+    .refine(
+      (val) => val.startsWith("http://") || val.startsWith("https://") || val.startsWith("data:image/"),
+      "L'image doit être une URL ou un fichier importé."
+    ),
   description: z.string().min(1),
   order: z.coerce.number().default(0),
   results: z

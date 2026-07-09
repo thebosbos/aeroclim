@@ -14,43 +14,37 @@ export default async function AdminProjectsPage() {
         </Link>
       </div>
 
-      <div className="admin-card">
-        {projects.length === 0 ? (
+      {projects.length === 0 ? (
+        <div className="admin-card">
           <p className="admin-empty">Aucun projet pour le moment.</p>
-        ) : (
-          <table className="admin-table">
-            <thead>
-              <tr>
-                <th>Titre</th>
-                <th>Catégorie</th>
-                <th>Ordre</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {projects.map((project) => (
-                <tr key={project._id}>
-                  <td>{project.title}</td>
-                  <td>{project.category}</td>
-                  <td>{project.order}</td>
-                  <td>
-                    <div className="admin-table-actions">
-                      <Link href={`/admin/projects/${project._id}`} className="admin-btn admin-btn-secondary">
-                        Modifier
-                      </Link>
-                      <DeleteButton
-                        action={deleteProject}
-                        id={project._id}
-                        confirmMessage={`Supprimer le projet "${project.title}" ?`}
-                      />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div className="admin-project-grid">
+          {projects.map((project) => (
+            <div className="admin-project-card" key={project._id}>
+              <div className="admin-project-card-image">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={project.image} alt={project.title} />
+              </div>
+              <div className="admin-project-card-body">
+                <span className="admin-project-card-category">{project.category}</span>
+                <div className="admin-project-card-title">{project.title}</div>
+                <span className="admin-project-card-order">Ordre : {project.order}</span>
+                <div className="admin-project-card-actions">
+                  <Link href={`/admin/projects/${project._id}`} className="admin-btn admin-btn-secondary">
+                    Modifier
+                  </Link>
+                  <DeleteButton
+                    action={deleteProject}
+                    id={project._id}
+                    confirmMessage={`Supprimer le projet "${project.title}" ?`}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

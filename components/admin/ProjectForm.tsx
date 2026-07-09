@@ -1,4 +1,5 @@
 import type { Project } from "@/lib/types";
+import ImageUpload from "@/components/admin/ImageUpload";
 
 function resultsToRaw(results: Project["results"]) {
   return results.map((r) => `${r.value} | ${r.label}`).join("\n");
@@ -31,10 +32,7 @@ export default function ProjectForm({
         </div>
       </div>
 
-      <div className="admin-field">
-        <label htmlFor="image">URL de l&apos;image</label>
-        <input type="url" id="image" name="image" required defaultValue={project?.image} />
-      </div>
+      <ImageUpload defaultValue={project?.image} />
 
       <div className="admin-field">
         <label htmlFor="description">Description</label>
