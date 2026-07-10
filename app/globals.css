@@ -171,6 +171,11 @@ img {
     display: none;
 }
 
+.nav-menu a.btn-nav,
+.nav-menu a.btn-nav.active {
+    color: white;
+}
+
 .btn-nav:hover {
     transform: translateY(-2px);
     filter: brightness(1.08);
