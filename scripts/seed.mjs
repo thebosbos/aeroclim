@@ -218,6 +218,29 @@ const stats = [
   { group: "team", value: "100%", label: "Certifiés & qualifiés", order: 3 },
 ];
 
+const features = [
+  {
+    title: "Approche ingénierie complète",
+    text: "De l'audit à la maintenance, une solution globale pour chaque projet.",
+    order: 1,
+  },
+  {
+    title: "Solutions sur-mesure",
+    text: "Chaque installation est conçue spécifiquement pour votre environnement.",
+    order: 2,
+  },
+  {
+    title: "Équipes certifiées",
+    text: "Techniciens qualifiés et en formation continue pour garantir l'excellence.",
+    order: 3,
+  },
+  {
+    title: "Maintenance & suivi long terme",
+    text: "Accompagnement continu pour optimiser la performance de vos installations.",
+    order: 4,
+  },
+];
+
 async function main() {
   const client = new MongoClient(uri);
   await client.connect();
@@ -226,6 +249,7 @@ async function main() {
   const projectsCol = db.collection("projects");
   const servicesCol = db.collection("services");
   const statsCol = db.collection("stats");
+  const featuresCol = db.collection("features");
   const usersCol = db.collection("users");
 
   if ((await projectsCol.countDocuments()) === 0) {
@@ -248,6 +272,13 @@ async function main() {
     console.log(`Inserted ${stats.length} stats.`);
   } else {
     console.log("Stats collection already has data, skipping.");
+  }
+
+  if ((await featuresCol.countDocuments()) === 0) {
+    await featuresCol.insertMany(features);
+    console.log(`Inserted ${features.length} features.`);
+  } else {
+    console.log("Features collection already has data, skipping.");
   }
 
   const adminEmail = (process.env.SEED_ADMIN_EMAIL || "").toLowerCase();

@@ -9,6 +9,7 @@ const links = [
   { href: "/admin/projects", label: "Projets", icon: "projects" as const },
   { href: "/admin/services", label: "Services", icon: "services" as const },
   { href: "/admin/stats", label: "Statistiques", icon: "stats" as const },
+  { href: "/admin/features", label: "Pourquoi Aeroclim", icon: "features" as const },
   { href: "/admin/leads", label: "Demandes", icon: "leads" as const },
   { href: "/admin/users", label: "Administrateurs", icon: "users" as const },
 ];

@@ -2,12 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { getServices } from "@/lib/actions/services";
 import { getStatsByGroup } from "@/lib/actions/stats";
+import { getFeatures } from "@/lib/actions/features";
 import StickyCta from "@/components/StickyCta";
 
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [services, stats] = await Promise.all([getServices(), getStatsByGroup("home")]);
+  const [services, stats, features] = await Promise.all([
+    getServices(),
+    getStatsByGroup("home"),
+    getFeatures(),
+  ]);
 
   return (
     <>
@@ -100,26 +105,13 @@ export default async function HomePage() {
           </div>
 
           <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-number">01</div>
-              <h3>Approche ingénierie complète</h3>
-              <p>De l&apos;audit à la maintenance, une solution globale pour chaque projet.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-number">02</div>
-              <h3>Solutions sur-mesure</h3>
-              <p>Chaque installation est conçue spécifiquement pour votre environnement.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-number">03</div>
-              <h3>Équipes certifiées</h3>
-              <p>Techniciens qualifiés et en formation continue pour garantir l&apos;excellence.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-number">04</div>
-              <h3>Maintenance & suivi long terme</h3>
-              <p>Accompagnement continu pour optimiser la performance de vos installations.</p>
-            </div>
+            {features.map((feature, i) => (
+              <div className="feature-card" key={feature._id}>
+                <div className="feature-number">{String(i + 1).padStart(2, "0")}</div>
+                <h3>{feature.title}</h3>
+                <p>{feature.text}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

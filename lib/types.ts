@@ -49,6 +49,13 @@ export interface Stat {
   order: number;
 }
 
+export interface Feature {
+  _id: string;
+  title: string;
+  text: string;
+  order: number;
+}
+
 export type LeadStatus = "new" | "contacted" | "closed";
 
 export interface Lead {
