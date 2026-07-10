@@ -156,12 +156,14 @@ img {
 }
 
 .btn-nav {
-    padding: 0.625rem 1.5rem;
-    background: var(--primary-color);
+    padding: 0.625rem 1.75rem;
+    background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
     color: white;
-    border-radius: 8px;
+    border-radius: 999px;
     font-weight: 600;
     font-size: 0.95rem;
+    box-shadow: 0 2px 8px rgba(15, 118, 110, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-nav::after {
@@ -169,9 +171,8 @@ img {
 }
 
 .btn-nav:hover {
-    background: var(--primary-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(15, 118, 110, 0.4);
 }
 
 .mobile-menu-btn {
