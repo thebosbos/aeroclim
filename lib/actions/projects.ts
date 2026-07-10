@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { ObjectId } from "mongodb";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { getDb } from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/session";
 import { serialize } from "@/lib/serialize";
@@ -66,12 +65,6 @@ export async function getProjects(): Promise<Project[]> {
   return serialize(docs);
 }
 
-export async function getProject(id: string): Promise<Project | null> {
-  const db = await getDb();
-  const doc = await db.collection("projects").findOne({ _id: new ObjectId(id) });
-  return doc ? serialize(doc) : null;
-}
-
 export async function createProject(formData: FormData) {
   await requireAdmin();
   const data = fromFormData(formData);
@@ -79,7 +72,6 @@ export async function createProject(formData: FormData) {
   const now = new Date();
   await db.collection("projects").insertOne({ ...data, createdAt: now, updatedAt: now });
   revalidateProjectPages();
-  redirect("/admin/projects");
 }
 
 export async function updateProject(formData: FormData) {
@@ -91,7 +83,6 @@ export async function updateProject(formData: FormData) {
     .collection("projects")
     .updateOne({ _id: new ObjectId(id) }, { $set: { ...data, updatedAt: new Date() } });
   revalidateProjectPages();
-  redirect("/admin/projects");
 }
 
 export async function deleteProject(formData: FormData) {
@@ -100,5 +91,4 @@ export async function deleteProject(formData: FormData) {
   const db = await getDb();
   await db.collection("projects").deleteOne({ _id: new ObjectId(id) });
   revalidateProjectPages();
-  redirect("/admin/projects");
 }

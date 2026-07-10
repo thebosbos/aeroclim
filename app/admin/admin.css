@@ -308,6 +308,9 @@
     font-size: 0.85rem;
     font-weight: 600;
     color: #374151;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
 .admin-field input,
@@ -501,4 +504,62 @@
     font-weight: 700;
     margin-bottom: 1.6rem;
     letter-spacing: -0.01em;
+}
+
+/* Modal */
+
+.admin-modal {
+    border: none;
+    border-radius: var(--admin-radius-lg);
+    padding: 0;
+    width: min(600px, 92vw);
+    max-height: 85vh;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    color: var(--admin-text);
+}
+
+.admin-modal::backdrop {
+    background: rgba(15, 16, 35, 0.55);
+    backdrop-filter: blur(2px);
+}
+
+.admin-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--admin-border);
+    position: sticky;
+    top: 0;
+    background: var(--admin-surface);
+    border-top-left-radius: var(--admin-radius-lg);
+    border-top-right-radius: var(--admin-radius-lg);
+}
+
+.admin-modal-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.admin-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--admin-text-muted);
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+}
+
+.admin-modal-close:hover {
+    background: var(--admin-bg);
+    color: var(--admin-text);
+}
+
+.admin-modal-form {
+    padding: 1.5rem;
+    overflow-y: auto;
+    max-height: calc(85vh - 66px);
+    max-width: none;
 }

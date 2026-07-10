@@ -5,54 +5,53 @@ function resultsToRaw(results: Project["results"]) {
   return results.map((r) => `${r.value} | ${r.label}`).join("\n");
 }
 
-export default function ProjectForm({
-  action,
-  project,
-}: {
-  action: (formData: FormData) => void;
-  project?: Project;
-}) {
+export default function ProjectForm({ project }: { project?: Project }) {
   return (
-    <form action={action} className="admin-form">
+    <>
       {project && <input type="hidden" name="id" value={project._id} />}
 
       <div className="admin-field">
-        <label htmlFor="title">Titre</label>
-        <input type="text" id="title" name="title" required defaultValue={project?.title} />
+        <label>
+          Titre
+          <input type="text" name="title" required defaultValue={project?.title} />
+        </label>
       </div>
 
       <div className="admin-form-row">
         <div className="admin-field">
-          <label htmlFor="category">Catégorie</label>
-          <input type="text" id="category" name="category" required defaultValue={project?.category} />
+          <label>
+            Catégorie
+            <input type="text" name="category" required defaultValue={project?.category} />
+          </label>
         </div>
         <div className="admin-field">
-          <label htmlFor="order">Ordre d&apos;affichage</label>
-          <input type="number" id="order" name="order" defaultValue={project?.order ?? 0} />
+          <label>
+            Ordre d&apos;affichage
+            <input type="number" name="order" defaultValue={project?.order ?? 0} />
+          </label>
         </div>
       </div>
 
       <ImageUpload defaultValue={project?.image} />
 
       <div className="admin-field">
-        <label htmlFor="description">Description</label>
-        <textarea id="description" name="description" required defaultValue={project?.description} />
+        <label>
+          Description
+          <textarea name="description" required defaultValue={project?.description} />
+        </label>
       </div>
 
       <div className="admin-field">
-        <label htmlFor="resultsRaw">Résultats (une ligne par résultat)</label>
-        <textarea
-          id="resultsRaw"
-          name="resultsRaw"
-          placeholder={"35% | Économie énergétique\n99,8% | Disponibilité"}
-          defaultValue={project ? resultsToRaw(project.results) : ""}
-        />
+        <label>
+          Résultats (une ligne par résultat)
+          <textarea
+            name="resultsRaw"
+            placeholder={"35% | Économie énergétique\n99,8% | Disponibilité"}
+            defaultValue={project ? resultsToRaw(project.results) : ""}
+          />
+        </label>
         <span className="admin-hint">Format : valeur | libellé — max 4 lignes.</span>
       </div>
-
-      <button type="submit" className="admin-btn">
-        {project ? "Enregistrer" : "Créer le projet"}
-      </button>
-    </form>
+    </>
   );
 }

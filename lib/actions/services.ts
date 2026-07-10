@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { ObjectId } from "mongodb";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { getDb } from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/session";
 import { serialize } from "@/lib/serialize";
@@ -66,19 +65,12 @@ export async function getServices(): Promise<Service[]> {
   return serialize(docs);
 }
 
-export async function getService(id: string): Promise<Service | null> {
-  const db = await getDb();
-  const doc = await db.collection("services").findOne({ _id: new ObjectId(id) });
-  return doc ? serialize(doc) : null;
-}
-
 export async function createService(formData: FormData) {
   await requireAdmin();
   const data = fromFormData(formData);
   const db = await getDb();
   await db.collection("services").insertOne(data);
   revalidateServicePages();
-  redirect("/admin/services");
 }
 
 export async function updateService(formData: FormData) {
@@ -88,7 +80,6 @@ export async function updateService(formData: FormData) {
   const db = await getDb();
   await db.collection("services").updateOne({ _id: new ObjectId(id) }, { $set: data });
   revalidateServicePages();
-  redirect("/admin/services");
 }
 
 export async function deleteService(formData: FormData) {
@@ -97,5 +88,4 @@ export async function deleteService(formData: FormData) {
   const db = await getDb();
   await db.collection("services").deleteOne({ _id: new ObjectId(id) });
   revalidateServicePages();
-  redirect("/admin/services");
 }

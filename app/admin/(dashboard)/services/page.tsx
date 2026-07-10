@@ -1,6 +1,7 @@
-import Link from "next/link";
-import { getServices, deleteService } from "@/lib/actions/services";
+import { getServices, createService, updateService, deleteService } from "@/lib/actions/services";
 import DeleteButton from "@/components/admin/DeleteButton";
+import EntityModal from "@/components/admin/EntityModal";
+import ServiceForm from "@/components/admin/ServiceForm";
 
 export default async function AdminServicesPage() {
   const services = await getServices();
@@ -9,9 +10,9 @@ export default async function AdminServicesPage() {
     <div>
       <div className="admin-header">
         <h1>Services</h1>
-        <Link href="/admin/services/new" className="admin-btn">
-          Nouveau service
-        </Link>
+        <EntityModal title="Nouveau service" action={createService} submitLabel="Créer le service" trigger="Nouveau service">
+          <ServiceForm />
+        </EntityModal>
       </div>
 
       <div className="admin-card">
@@ -35,9 +36,14 @@ export default async function AdminServicesPage() {
                   <td>{service.order}</td>
                   <td>
                     <div className="admin-table-actions">
-                      <Link href={`/admin/services/${service._id}`} className="admin-btn admin-btn-secondary">
-                        Modifier
-                      </Link>
+                      <EntityModal
+                        title="Modifier le service"
+                        action={updateService}
+                        triggerClassName="admin-btn admin-btn-secondary"
+                        trigger="Modifier"
+                      >
+                        <ServiceForm service={service} />
+                      </EntityModal>
                       <DeleteButton
                         action={deleteService}
                         id={service._id}

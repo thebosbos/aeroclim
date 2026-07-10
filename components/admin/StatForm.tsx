@@ -1,44 +1,42 @@
 import type { Stat } from "@/lib/types";
 
-export default function StatForm({
-  action,
-  stat,
-}: {
-  action: (formData: FormData) => void;
-  stat?: Stat;
-}) {
+export default function StatForm({ stat }: { stat?: Stat }) {
   return (
-    <form action={action} className="admin-form">
+    <>
       {stat && <input type="hidden" name="id" value={stat._id} />}
 
       <div className="admin-field">
-        <label htmlFor="group">Groupe</label>
-        <select id="group" name="group" required defaultValue={stat?.group ?? "home"}>
-          <option value="home">Accueil</option>
-          <option value="projects">Page Projets</option>
-          <option value="team">À propos (équipe)</option>
-        </select>
+        <label>
+          Groupe
+          <select name="group" required defaultValue={stat?.group ?? "home"}>
+            <option value="home">Accueil</option>
+            <option value="projects">Page Projets</option>
+            <option value="team">À propos (équipe)</option>
+          </select>
+        </label>
       </div>
 
       <div className="admin-form-row">
         <div className="admin-field">
-          <label htmlFor="value">Valeur</label>
-          <input type="text" id="value" name="value" required defaultValue={stat?.value} placeholder="500+" />
+          <label>
+            Valeur
+            <input type="text" name="value" required defaultValue={stat?.value} placeholder="500+" />
+          </label>
         </div>
         <div className="admin-field">
-          <label htmlFor="order">Ordre</label>
-          <input type="number" id="order" name="order" defaultValue={stat?.order ?? 0} />
+          <label>
+            Ordre
+            <input type="number" name="order" defaultValue={stat?.order ?? 0} />
+          </label>
         </div>
       </div>
 
       <div className="admin-field">
-        <label htmlFor="label">Libellé</label>
-        <input type="text" id="label" name="label" required defaultValue={stat?.label} placeholder="Projets réalisés" />
+        <label>
+          Libellé
+          <input type="text" name="label" required defaultValue={stat?.label} placeholder="Projets réalisés" />
+        </label>
       </div>
-
-      <button type="submit" className="admin-btn">
-        {stat ? "Enregistrer" : "Créer la statistique"}
-      </button>
-    </form>
+    </>
   );
 }

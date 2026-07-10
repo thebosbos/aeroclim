@@ -1,6 +1,7 @@
-import Link from "next/link";
-import { getProjects, deleteProject } from "@/lib/actions/projects";
+import { getProjects, createProject, updateProject, deleteProject } from "@/lib/actions/projects";
 import DeleteButton from "@/components/admin/DeleteButton";
+import EntityModal from "@/components/admin/EntityModal";
+import ProjectForm from "@/components/admin/ProjectForm";
 
 export default async function AdminProjectsPage() {
   const projects = await getProjects();
@@ -9,9 +10,9 @@ export default async function AdminProjectsPage() {
     <div>
       <div className="admin-header">
         <h1>Projets</h1>
-        <Link href="/admin/projects/new" className="admin-btn">
-          Nouveau projet
-        </Link>
+        <EntityModal title="Nouveau projet" action={createProject} submitLabel="Créer le projet" trigger="Nouveau projet">
+          <ProjectForm />
+        </EntityModal>
       </div>
 
       {projects.length === 0 ? (
@@ -31,9 +32,14 @@ export default async function AdminProjectsPage() {
                 <div className="admin-project-card-title">{project.title}</div>
                 <span className="admin-project-card-order">Ordre : {project.order}</span>
                 <div className="admin-project-card-actions">
-                  <Link href={`/admin/projects/${project._id}`} className="admin-btn admin-btn-secondary">
-                    Modifier
-                  </Link>
+                  <EntityModal
+                    title="Modifier le projet"
+                    action={updateProject}
+                    triggerClassName="admin-btn admin-btn-secondary"
+                    trigger="Modifier"
+                  >
+                    <ProjectForm project={project} />
+                  </EntityModal>
                   <DeleteButton
                     action={deleteProject}
                     id={project._id}

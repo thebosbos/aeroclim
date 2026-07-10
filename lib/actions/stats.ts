@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { ObjectId } from "mongodb";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { getDb } from "@/lib/mongodb";
 import { requireAdmin } from "@/lib/session";
 import { serialize } from "@/lib/serialize";
@@ -38,12 +37,6 @@ export async function getAllStats(): Promise<Stat[]> {
   return serialize(docs);
 }
 
-export async function getStat(id: string): Promise<Stat | null> {
-  const db = await getDb();
-  const doc = await db.collection("stats").findOne({ _id: new ObjectId(id) });
-  return doc ? serialize(doc) : null;
-}
-
 export async function getStatsByGroup(group: StatGroup): Promise<Stat[]> {
   const db = await getDb();
   const docs = await db
@@ -60,7 +53,6 @@ export async function createStat(formData: FormData) {
   const db = await getDb();
   await db.collection("stats").insertOne(data);
   revalidateStatPages();
-  redirect("/admin/stats");
 }
 
 export async function updateStat(formData: FormData) {
@@ -70,7 +62,6 @@ export async function updateStat(formData: FormData) {
   const db = await getDb();
   await db.collection("stats").updateOne({ _id: new ObjectId(id) }, { $set: data });
   revalidateStatPages();
-  redirect("/admin/stats");
 }
 
 export async function deleteStat(formData: FormData) {
@@ -79,5 +70,4 @@ export async function deleteStat(formData: FormData) {
   const db = await getDb();
   await db.collection("stats").deleteOne({ _id: new ObjectId(id) });
   revalidateStatPages();
-  redirect("/admin/stats");
 }

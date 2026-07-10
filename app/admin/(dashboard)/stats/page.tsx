@@ -1,6 +1,7 @@
-import Link from "next/link";
-import { getAllStats, deleteStat } from "@/lib/actions/stats";
+import { getAllStats, createStat, updateStat, deleteStat } from "@/lib/actions/stats";
 import DeleteButton from "@/components/admin/DeleteButton";
+import EntityModal from "@/components/admin/EntityModal";
+import StatForm from "@/components/admin/StatForm";
 
 const groupLabels: Record<string, string> = {
   home: "Accueil",
@@ -15,9 +16,14 @@ export default async function AdminStatsPage() {
     <div>
       <div className="admin-header">
         <h1>Statistiques</h1>
-        <Link href="/admin/stats/new" className="admin-btn">
-          Nouvelle statistique
-        </Link>
+        <EntityModal
+          title="Nouvelle statistique"
+          action={createStat}
+          submitLabel="Créer la statistique"
+          trigger="Nouvelle statistique"
+        >
+          <StatForm />
+        </EntityModal>
       </div>
 
       <div className="admin-card">
@@ -43,9 +49,14 @@ export default async function AdminStatsPage() {
                   <td>{stat.order}</td>
                   <td>
                     <div className="admin-table-actions">
-                      <Link href={`/admin/stats/${stat._id}`} className="admin-btn admin-btn-secondary">
-                        Modifier
-                      </Link>
+                      <EntityModal
+                        title="Modifier la statistique"
+                        action={updateStat}
+                        triggerClassName="admin-btn admin-btn-secondary"
+                        trigger="Modifier"
+                      >
+                        <StatForm stat={stat} />
+                      </EntityModal>
                       <DeleteButton
                         action={deleteStat}
                         id={stat._id}
